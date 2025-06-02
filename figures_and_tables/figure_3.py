@@ -90,9 +90,9 @@ def figure_3_sim(i, n_iter):
 
 def main():
     # FOR PARALLEL RUNS: 
-    params = [(i, 10) for i in range(0, 7)] # 1000 is the number of replications, 90 is the number of configurations which are handled in parallel.
+    params = [(i, 1000) for i in range(0, 90)] # 1000 is the number of replications, 90 is the number of configurations which are handled in parallel.
 
-    with ProcessPoolExecutor(max_workers = 7) as executor:
+    with ProcessPoolExecutor(max_workers = 6) as executor:
         futures = [executor.submit(figure_3_sim, ij, n_reps) for ij, n_reps in params]
         results = [f.result() for f in as_completed(futures)]
 
@@ -105,4 +105,4 @@ def main():
 
 if __name__ == "__main__":
 
-  main()
+    main()
