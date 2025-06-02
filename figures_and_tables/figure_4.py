@@ -1,9 +1,11 @@
+import sys
+sys.path.append() # SPECIFY LOCATION OF THE FOLDER CONTAINING THE REPO
+
 import numpy as np
 import pandas as pd
 import functions.genericml as gml
 import functions.make_data as md
 from itertools import product
-import sys
 from functions.generate_wando_data import wando_gen
 import functions.bh as bh
 import functions.did_ss_corr as dscorr

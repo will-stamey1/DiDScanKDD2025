@@ -1,5 +1,5 @@
 import sys
-sys.path.append('C:/Users/wosta/Documents/Research Projects/did-subset-scan/kdd_rep_files')
+sys.path.append() # SPECIFY LOCATION OF THE FOLDER CONTAINING THE REPO
 import numpy as np
 import pandas as pd
 import xarray as xr
@@ -79,7 +79,7 @@ def figure_3_sim(i, n_iter):
         results["overlap"].append(did_ol)
 
         # use randomization test to check for significance: 
-        null_data = pd.read_csv("null_dist.csv")
+        null_data = pd.read_csv("data/null_dist.csv")
         results['pval'].append(np.mean(didss_res['score'] > null_data['didss_score']))
         results['rej_at_05'].append(results['pval'][it] < 0.05)
 
