@@ -98,7 +98,7 @@ if __name__ == "__main__":
     te_output[['employed_individuals','medianhouseholdincome','branch_count_percapita','internet_access_score','effects']]
 
     # get null distribution using permutation test and get one-sided p value: 
-    rtout_overall = rt.rand_test(result, ovrall_bank, n_samples =500, search_covs = x_names, n_processes = 7)
+    rtout_overall = rt.rand_test(result, ovrall_bank, n_samples = 500, search_covs = x_names, n_processes = 7)
     np.mean(result['score'] < rtout_overall)
     # optionally save randomization distribution: 
     # pd.DataFrame({"null_scores" : rtout}).to_csv("nullscores.csv")
@@ -127,25 +127,90 @@ if __name__ == "__main__":
     np.mean(result['score'] < rtout_asset)
 
 
-
     # TABLE 3: evaluate nearby subsets to the subset discovered for overall bankruptcy rate 
+    
+    S = {'employed_individuals': ['2', '1'], 'medianhouseholdincome': ['2'], 
+         'branch_count_percapita': ['1'], 'internet_access_score': ['2', '1']}
+    ds.get_score_given_set(ovrall_bank, S, search_vars = x_names, binned = True)
+
+    subset = md.subset_by_covs(xr_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
+
+    
     S = {'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['2'], 
                 'internet_access_score': ['2'], 'branch_count_percapita': ['1']}
     ds.get_score_given_set(ovrall_bank, S, search_vars = x_names, binned = True)
+
+    md.subset_by_covs(xr_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
 
 
     S = {'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['2'], 
                 'internet_access_score': ['1', '2'], 'branch_count_percapita': ['1','2']}
     ds.get_score_given_set(ovrall_bank, S, search_vars = x_names, binned = True)
 
+    md.subset_by_covs(xr_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
 
     S = {'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['1', '2'], 
                 'internet_access_score': ['1', '2'], 'branch_count_percapita': ['2']}
     ds.get_score_given_set(ovrall_bank, S, search_vars = x_names, binned = True)
 
+    md.subset_by_covs(xr_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
 
     S = {'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['1', '2'], 
                 'internet_access_score': ['1', '2'], 'branch_count_percapita': ['1']}
     ds.get_score_given_set(ovrall_bank, S, search_vars = x_names, binned = True)
+
+    md.subset_by_covs(xr_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
+
+
+
+
+
+    # TABLE 3 (alt): evaluate nearby subsets to the subset discovered for liability rate: 
+    S = {'stream':['bankruptcy_percapita_highliab'],'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['2'], 'branch_count_percapita': ['1', '2'], 'internet_access_score': ['2', '1']}
+    ds.get_score_given_set(liab_data, S, search_vars = x_names, binned = True)
+
+    subset = md.subset_by_covs(liab_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
+
+    S = {'stream':['bankruptcy_percapita_highliab'], 'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['2'], 
+                'internet_access_score': ['2'], 'branch_count_percapita': ['1']}
+    ds.get_score_given_set(liab_data, S, search_vars = x_names, binned = True)
+
+    subset = md.subset_by_covs(liab_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
+
+    S = {'stream':['bankruptcy_percapita_highliab'], 'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['2'], 
+                'internet_access_score': ['1', '2'], 'branch_count_percapita': ['1','2']}
+    ds.get_score_given_set(liab_data, S, search_vars = x_names, binned = True)
+
+    subset = md.subset_by_covs(liab_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
+
+    S = {'stream':['bankruptcy_percapita_highliab'], 'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['1', '2'], 
+                'internet_access_score': ['1', '2'], 'branch_count_percapita': ['2']}
+    ds.get_score_given_set(liab_data, S, search_vars = x_names, binned = True)
+
+    subset = md.subset_by_covs(liab_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
+
+
+    S = {'stream':['bankruptcy_percapita_highliab'], 'employed_individuals': ['1', '2'], 'medianhouseholdincome': ['2'], 
+                'internet_access_score': ['1', '2'], 'branch_count_percapita': ['1']}
+    ds.get_score_given_set(liab_data, S, search_vars = x_names, binned = True)
+
+    subset = md.subset_by_covs(liab_data, subset = S) # get data subset
+    did.diff_in_diff(subset, model_type = 'twfe') # get effect estimate and standard error
 
 

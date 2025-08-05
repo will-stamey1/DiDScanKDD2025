@@ -68,7 +68,7 @@ def get_w_vector(windows, n_periods):
 
     if windows: 
 
-        for i in range(windows[0], windows[1] + 1, windows[2]):
+        for i in range((windows[0] + 1), windows[1] + 1, windows[2]):
             for j in range(0, n_periods - i + 1):
                 w = w0.copy()
                 w[j:(i + j)] = 1
